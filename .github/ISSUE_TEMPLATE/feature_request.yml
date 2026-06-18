@@ -1,0 +1,39 @@
+name: Feature request
+description: Suggest a focused improvement for Codex Meter.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should Codex Meter do?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Reset Bank
+        - Usage meters
+        - Codex-Spark
+        - Menu bar
+        - Settings
+        - Release/distribution
+        - Privacy/security
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes
+      description: Add mockups, examples, or implementation notes if useful.

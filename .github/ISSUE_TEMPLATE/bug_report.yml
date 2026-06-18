@@ -1,0 +1,56 @@
+name: Bug report
+description: Report a Codex Meter bug without exposing private account data.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this. Do not paste access tokens, cookies, account ids, `~/.codex/auth.json`, or raw private endpoint responses.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Tell us what you expected and what happened instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Reset Bank
+        - Usage meters
+        - Codex-Spark
+        - Menu bar
+        - Settings
+        - Auth/loading
+        - Build/release
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version
+      placeholder: "Example: macOS 15.5"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Codex Meter version or commit
+      placeholder: "Example: 0.1.0 or commit SHA"
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Codex Meter
+        2. Click ...
+        3. See ...
+  - type: textarea
+    id: logs
+    attributes:
+      label: Safe logs or screenshots
+      description: Redact private data before attaching.

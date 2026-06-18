@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex Meter Demo</title>
+</head>
+<body>
+  <div
+    data-composition-id="codex-meter-demo"
+    data-start="0"
+    data-duration="21.25"
+    data-track-index="0"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section id="intro" class="scene intro" data-start="0" data-duration="3" data-track-index="1">
+      <div class="orb orb-a"></div>
+      <div class="orb orb-b"></div>
+      <div class="scene-content intro-content">
+        <p class="eyebrow">Native macOS menu-bar utility</p>
+        <h1>Codex Meter</h1>
+        <p class="subtitle">Codex usage, Reset Bank, and Spark limits at a glance.</p>
+      </div>
+    </section>
+
+    <section id="circular" class="scene product-scene" data-start="2.25" data-duration="5" data-track-index="2">
+      <div class="scene-content split-content">
+        <div class="copy-block">
+          <p class="eyebrow">Reset Bank</p>
+          <h2>Credits, granted dates, and expiration stay visible.</h2>
+          <p>Built for people who keep Codex open all day and need one calm place to check what is still available.</p>
+        </div>
+        <figure class="shot tall-shot">
+          <img src="../assets/codex-meter-widget-circular.png" alt="Codex Meter circular widget">
+        </figure>
+      </div>
+    </section>
+
+    <section id="settings" class="scene product-scene" data-start="6.5" data-duration="4.5" data-track-index="3">
+      <div class="scene-content split-content reverse">
+        <figure class="shot settings-shot">
+          <img src="../assets/codex-meter-settings.png" alt="Codex Meter settings window">
+        </figure>
+        <div class="copy-block">
+          <p class="eyebrow">Settings</p>
+          <h2>Refresh intervals and meter style are user controlled.</h2>
+          <p>Choose Circular, Bars, or Battery while keeping the widget readable at small sizes.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="bars" class="scene product-scene" data-start="10.25" data-duration="4.5" data-track-index="4">
+      <div class="scene-content split-content">
+        <div class="copy-block">
+          <p class="eyebrow">Usage Remaining</p>
+          <h2>Codex and Codex-Spark are grouped clearly.</h2>
+          <p>Health colors shift from green to amber to red as remaining usage drops.</p>
+        </div>
+        <figure class="shot tall-shot">
+          <img src="../assets/codex-meter-widget-bars.png" alt="Codex Meter bars widget">
+        </figure>
+      </div>
+    </section>
+
+    <section id="battery" class="scene product-scene" data-start="14" data-duration="4.5" data-track-index="5">
+      <div class="scene-content split-content reverse">
+        <figure class="shot tall-shot">
+          <img src="../assets/codex-meter-widget-battery.png" alt="Codex Meter battery widget">
+        </figure>
+        <div class="copy-block">
+          <p class="eyebrow">Local First</p>
+          <h2>No analytics. No account system. No token logging.</h2>
+          <p>Codex Meter uses the local Codex session only to call the ChatGPT usage endpoints.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="outro" class="scene outro" data-start="17.75" data-duration="3.5" data-track-index="6">
+      <div class="orb orb-c"></div>
+      <div class="scene-content outro-content">
+        <p class="eyebrow">Open source</p>
+        <h2>Codex Meter</h2>
+        <p>MIT licensed. Built for quick community fixes when backend payloads change.</p>
+      </div>
+    </section>
+
+    <style>
+      [data-composition-id="codex-meter-demo"] {
+        width: 1920px;
+        height: 1080px;
+        position: relative;
+        overflow: hidden;
+        background: #eaf8fb;
+        color: #20272b;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .scene {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 78% 20%, rgba(45, 199, 223, 0.34), transparent 34%),
+          radial-gradient(circle at 12% 92%, rgba(255, 181, 61, 0.16), transparent 30%),
+          linear-gradient(135deg, #eaf8fb 0%, #dff5f7 54%, #f8edf5 100%);
+      }
+
+      .scene-content {
+        width: 100%;
+        height: 100%;
+        padding: 96px 128px;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 2;
+      }
+
+      .intro-content,
+      .outro-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 1020px;
+      }
+
+      .split-content {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        align-items: center;
+        gap: 72px;
+      }
+
+      .split-content.reverse {
+        grid-template-columns: 1.05fr 0.95fr;
+      }
+
+      .copy-block {
+        max-width: 660px;
+      }
+
+      .eyebrow {
+        margin: 0 0 22px;
+        color: #2dc7df;
+        font-size: 26px;
+        line-height: 1.1;
+        font-weight: 800;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 900px;
+        font-size: 132px;
+        line-height: 0.92;
+        font-weight: 860;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        max-width: 720px;
+        font-size: 76px;
+        line-height: 0.98;
+        font-weight: 820;
+        letter-spacing: 0;
+      }
+
+      .subtitle,
+      .copy-block p,
+      .outro-content p {
+        margin-top: 28px;
+        max-width: 760px;
+        color: #6b7478;
+        font-size: 34px;
+        line-height: 1.25;
+        font-weight: 640;
+        letter-spacing: 0;
+      }
+
+      .shot {
+        justify-self: center;
+        margin: 0;
+        border-radius: 36px;
+        background: rgba(255, 255, 255, 0.46);
+        box-shadow: 0 34px 90px rgba(44, 71, 84, 0.24);
+        overflow: hidden;
+      }
+
+      .shot img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .tall-shot {
+        width: min(700px, 40vw);
+        height: 900px;
+      }
+
+      .settings-shot {
+        width: 760px;
+        height: 540px;
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 999px;
+        z-index: 1;
+        filter: blur(2px);
+        opacity: 0.62;
+      }
+
+      .orb-a {
+        width: 620px;
+        height: 620px;
+        left: -180px;
+        top: -190px;
+        background: rgba(45, 199, 223, 0.24);
+      }
+
+      .orb-b {
+        width: 540px;
+        height: 540px;
+        right: -120px;
+        bottom: -140px;
+        background: rgba(255, 181, 61, 0.18);
+      }
+
+      .orb-c {
+        width: 780px;
+        height: 780px;
+        right: -210px;
+        top: 120px;
+        background: rgba(67, 201, 109, 0.18);
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      tl.from("#intro .eyebrow", { y: 28, opacity: 0, duration: 0.45, ease: "power3.out" }, 0.15);
+      tl.from("#intro h1", { y: 64, opacity: 0, scale: 0.98, duration: 0.68, ease: "expo.out" }, 0.32);
+      tl.from("#intro .subtitle", { y: 38, opacity: 0, duration: 0.54, ease: "back.out(1.4)" }, 0.65);
+
+      tl.from("#circular .copy-block .eyebrow", { x: -42, opacity: 0, duration: 0.48, ease: "circ.out" }, 2.45);
+      tl.from("#circular h2", { y: 42, opacity: 0, duration: 0.62, ease: "power4.out" }, 2.62);
+      tl.from("#circular .copy-block p", { y: 24, opacity: 0, duration: 0.5, ease: "sine.out" }, 2.9);
+      tl.from("#circular .shot", { x: 72, opacity: 0, scale: 0.96, duration: 0.7, ease: "expo.out" }, 2.72);
+
+      tl.from("#settings .shot", { x: -72, opacity: 0, scale: 0.97, duration: 0.66, ease: "power4.out" }, 6.68);
+      tl.from("#settings .copy-block .eyebrow", { y: 34, opacity: 0, duration: 0.45, ease: "back.out(1.4)" }, 6.82);
+      tl.from("#settings h2", { y: 46, opacity: 0, duration: 0.62, ease: "expo.out" }, 7.02);
+      tl.from("#settings .copy-block p", { y: 26, opacity: 0, duration: 0.5, ease: "sine.out" }, 7.28);
+
+      tl.from("#bars .copy-block .eyebrow", { x: -38, opacity: 0, duration: 0.44, ease: "circ.out" }, 10.45);
+      tl.from("#bars h2", { y: 44, opacity: 0, duration: 0.58, ease: "power3.out" }, 10.62);
+      tl.from("#bars .copy-block p", { y: 26, opacity: 0, duration: 0.5, ease: "sine.out" }, 10.88);
+      tl.from("#bars .shot", { x: 70, opacity: 0, scale: 0.96, duration: 0.68, ease: "expo.out" }, 10.7);
+
+      tl.from("#battery .shot", { x: -70, opacity: 0, scale: 0.96, duration: 0.68, ease: "expo.out" }, 14.18);
+      tl.from("#battery .copy-block .eyebrow", { y: 32, opacity: 0, duration: 0.44, ease: "back.out(1.3)" }, 14.34);
+      tl.from("#battery h2", { y: 44, opacity: 0, duration: 0.6, ease: "power4.out" }, 14.52);
+      tl.from("#battery .copy-block p", { y: 26, opacity: 0, duration: 0.5, ease: "sine.out" }, 14.82);
+
+      tl.from("#outro .eyebrow", { y: 30, opacity: 0, duration: 0.45, ease: "circ.out" }, 17.95);
+      tl.from("#outro h2", { y: 58, opacity: 0, scale: 0.98, duration: 0.62, ease: "expo.out" }, 18.12);
+      tl.from("#outro p", { y: 32, opacity: 0, duration: 0.5, ease: "back.out(1.4)" }, 18.4);
+      tl.to("#outro .scene-content", { opacity: 0, y: -18, duration: 0.45, ease: "power2.in" }, 20.72);
+
+      window.__timelines["codex-meter-demo"] = tl;
+    </script>
+  </div>
+</body>
+</html>
