@@ -24,7 +24,28 @@ Then manually verify:
 
 ## Package The App
 
-The helper builds a `.app` bundle into `dist/`.
+The release helper builds a signed `.app` bundle and wraps it in a drag-to-Applications `.dmg`.
+
+Create the release DMG:
+
+```bash
+./script/package_dmg.sh
+```
+
+The output is:
+
+```text
+dist/CodexMeter-0.1.0.dmg
+dist/CodexMeter-0.1.0.dmg.sha256
+```
+
+By default, the app is ad-hoc signed for local testing. For public distribution, run the script with a Developer ID Application certificate:
+
+```bash
+CODE_SIGN_IDENTITY="Developer ID Application: Your Name (TEAMID)" ./script/package_dmg.sh
+```
+
+The older ZIP path is still useful for quick local handoff:
 
 Create the release ZIP:
 
@@ -51,7 +72,9 @@ Suggested future automation:
 ## GitHub Release Checklist
 
 - Update `CHANGELOG.md`.
-- Attach `CodexMeter.app.zip`.
+- Attach `CodexMeter-<version>.dmg`.
+- Attach `CodexMeter-<version>.dmg.sha256`.
+- Optionally attach `CodexMeter.app.zip` as a fallback.
 - Attach the demo video from `outputs/codex-meter-demo.mp4`.
 - Include the security/privacy disclaimer.
 - Link to `PRIVACY.md` and `SECURITY.md`.

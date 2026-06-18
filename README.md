@@ -89,10 +89,10 @@ The app displays remaining capacity, not consumed capacity.
 Download the latest release asset:
 
 ```text
-CodexMeter.app.zip
+CodexMeter-<version>.dmg
 ```
 
-Unzip it and open `CodexMeter.app`.
+Open the DMG, drag `Codex Meter.app` into Applications, then launch it from there.
 
 Current local builds are ad-hoc signed and not notarized. A public release should be signed with a Developer ID Application certificate and notarized before broad distribution.
 
@@ -120,6 +120,12 @@ Build, launch, and verify the app process is running:
 
 ```bash
 ./script/build_and_run.sh --verify
+```
+
+Create a local DMG:
+
+```bash
+./script/package_dmg.sh
 ```
 
 ## Project Structure
