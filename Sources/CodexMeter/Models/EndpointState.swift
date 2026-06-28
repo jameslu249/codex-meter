@@ -7,9 +7,9 @@ enum WidgetEndpoint: String, CaseIterable, Sendable {
     var title: String {
         switch self {
         case .usage:
-            return "Usage"
+            return L10n.text("endpoint.usage.title")
         case .resetCredits:
-            return "Reset Bank"
+            return L10n.text("endpoint.resetCredits.title")
         }
     }
 
@@ -91,34 +91,34 @@ struct EndpointFailure: Error, Equatable, Sendable {
     var statusTitle: String {
         switch category {
         case .missingAuth:
-            return "Codex sign-in not found"
+            return L10n.text("failure.status.missingAuth")
         case .expiredSession:
-            return "Session expired"
+            return L10n.text("failure.status.expiredSession")
         case .schemaMismatch, .malformedPayload:
-            return "Data format changed"
+            return L10n.text("failure.status.schemaMismatch")
         case .httpFailure:
-            return "\(endpoint.title) failed"
+            return L10n.text("failure.status.httpFailure", endpoint.title)
         case .networkFailure:
-            return "\(endpoint.title) unavailable"
+            return L10n.text("failure.status.networkFailure", endpoint.title)
         case .invalidResponse, .unknown:
-            return "\(endpoint.title) needs attention"
+            return L10n.text("failure.status.needsAttention", endpoint.title)
         }
     }
 
     var detailText: String {
         switch category {
         case .missingAuth:
-            return "Sign in to Codex on this Mac, then refresh."
+            return L10n.text("failure.detail.missingAuth")
         case .expiredSession:
-            return "Sign in to Codex again, then refresh."
+            return L10n.text("failure.detail.expiredSession")
         case .schemaMismatch, .malformedPayload:
-            return "Current \(endpointDiagnosticLabel) response could not be interpreted."
+            return L10n.text("failure.detail.schemaMismatch", endpointDiagnosticLabel)
         case .httpFailure:
-            return "Current \(endpointDiagnosticLabel) response could not be loaded."
+            return L10n.text("failure.detail.httpFailure", endpointDiagnosticLabel)
         case .networkFailure:
-            return "Current \(endpointDiagnosticLabel) response could not be reached."
+            return L10n.text("failure.detail.networkFailure", endpointDiagnosticLabel)
         case .invalidResponse:
-            return "Current \(endpointDiagnosticLabel) response was not valid HTTP."
+            return L10n.text("failure.detail.invalidResponse", endpointDiagnosticLabel)
         case .unknown:
             return message
         }
@@ -127,9 +127,9 @@ struct EndpointFailure: Error, Equatable, Sendable {
     private var endpointDiagnosticLabel: String {
         switch endpoint {
         case .usage:
-            return "usage"
+            return L10n.text("endpoint.usage.diagnosticLabel")
         case .resetCredits:
-            return "reset-credit"
+            return L10n.text("endpoint.resetCredits.diagnosticLabel")
         }
     }
 }
@@ -239,46 +239,46 @@ struct EndpointRefreshState: Equatable, Sendable {
     var title: String {
         switch phase {
         case .idle:
-            return "Not updated"
+            return L10n.text("refreshState.title.notUpdated")
         case .refreshing:
-            return hasPriorData ? "Refreshing" : "Loading"
+            return hasPriorData ? L10n.text("refreshState.title.refreshing") : L10n.text("refreshState.title.loading")
         case .live:
-            return "Live"
+            return L10n.text("refreshState.title.live")
         case .stale:
             if failure?.category == .expiredSession {
-                return "Session expired"
+                return L10n.text("failure.status.expiredSession")
             }
 
             if failure?.category == .schemaMismatch || failure?.category == .malformedPayload {
-                return "Schema changed"
+                return L10n.text("refreshState.title.schemaChanged")
             }
 
             switch endpoint {
             case .usage:
-                return "Usage stale"
+                return L10n.text("refreshState.title.usageStale")
             case .resetCredits:
-                return "Reset Bank stale"
+                return L10n.text("refreshState.title.resetBankStale")
             }
         case .unavailable:
-            return failure?.statusTitle ?? "\(endpoint.title) unavailable"
+            return failure?.statusTitle ?? L10n.text("failure.status.networkFailure", endpoint.title)
         }
     }
 
     func timestampText(now: Date, timeFormatter: DateFormatter, relativeFormatter: RelativeDateTimeFormatter) -> String {
         if isRefreshing, !hasPriorData {
-            return "Loading latest data"
+            return L10n.text("refreshState.timestamp.loadingLatest")
         }
 
         guard let lastSuccessAt else {
-            return "Not updated yet"
+            return L10n.text("refreshState.timestamp.notUpdatedYet")
         }
 
         if phase == .live {
-            return "Updated \(timeFormatter.string(from: lastSuccessAt))"
+            return L10n.text("refreshState.timestamp.updated", timeFormatter.string(from: lastSuccessAt))
         }
 
         let relative = relativeAge(from: lastSuccessAt, now: now, formatter: relativeFormatter)
-        return "Data from \(relative)"
+        return L10n.text("refreshState.timestamp.dataFrom", relative)
     }
 
     func relativeDataAge(now: Date, formatter: RelativeDateTimeFormatter) -> String? {
@@ -286,12 +286,12 @@ struct EndpointRefreshState: Equatable, Sendable {
             return nil
         }
 
-        return "Data from \(relativeAge(from: lastSuccessAt, now: now, formatter: formatter))"
+        return L10n.text("refreshState.timestamp.dataFrom", relativeAge(from: lastSuccessAt, now: now, formatter: formatter))
     }
 
     private func relativeAge(from date: Date, now: Date, formatter: RelativeDateTimeFormatter) -> String {
         if date > now {
-            return "just now"
+            return L10n.text("relative.justNow")
         }
 
         return formatter.localizedString(for: date, relativeTo: now)

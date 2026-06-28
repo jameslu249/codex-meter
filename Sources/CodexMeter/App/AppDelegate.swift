@@ -123,10 +123,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         let snapshot = statusSnapshot()
 
-        menu.addItem(makeStaticMenuItem("Launch-at-login: \(launchAtLoginService.displaySummary)"))
+        menu.addItem(makeStaticMenuItem(L10n.text("menu.launchAtLoginStatus", launchAtLoginService.displaySummary)))
 
         if launchAtLoginService.requiresApproval {
-            let approvalItem = NSMenuItem(title: "Open Login Items...", action: #selector(openLoginItems), keyEquivalent: "")
+            let approvalItem = NSMenuItem(title: L10n.text("action.openLoginItems"), action: #selector(openLoginItems), keyEquivalent: "")
             approvalItem.target = self
             menu.addItem(approvalItem)
         }
@@ -136,29 +136,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         if snapshot.hasWindowData {
             if let lastUpdated = snapshot.lastUpdated {
-                menu.addItem(makeStaticMenuItem("Last updated: \(Self.timeFormatter.string(from: lastUpdated))"))
+                menu.addItem(makeStaticMenuItem(L10n.text("menu.lastUpdated", Self.timeFormatter.string(from: lastUpdated))))
             }
 
             if snapshot.isStale {
-                menu.addItem(makeStaticMenuItem("Warning: data may be stale"))
+                menu.addItem(makeStaticMenuItem(L10n.text("menu.warningStale")))
             }
 
             menu.addItem(.separator())
-            menu.addItem(makeStaticMenuItem("Usage breakdown"))
+            menu.addItem(makeStaticMenuItem(L10n.text("menu.usageBreakdown")))
             for row in snapshot.menuRows {
                 menu.addItem(makeStaticMenuItem(row))
             }
         } else if snapshot.errorMessage != nil {
-            let errorMessage = snapshot.errorMessage ?? "Unable to load usage"
-            menu.addItem(makeStaticMenuItem("Error: \(errorMessage)"))
+            let errorMessage = snapshot.errorMessage ?? L10n.text("menu.unableToLoadUsage")
+            menu.addItem(makeStaticMenuItem(L10n.text("menu.error", errorMessage)))
         } else {
-            menu.addItem(makeStaticMenuItem(snapshot.isLoading ? "Loading usage data" : "No usage data yet"))
+            menu.addItem(makeStaticMenuItem(snapshot.isLoading ? L10n.text("menu.loadingUsageData") : L10n.text("statusItem.menu.noUsageData")))
         }
 
         menu.addItem(.separator())
-        menu.addItem(NSMenuItem(title: "Refresh Now", action: #selector(refreshCredits), keyEquivalent: "r"))
+        menu.addItem(NSMenuItem(title: L10n.text("action.refreshNow"), action: #selector(refreshCredits), keyEquivalent: "r"))
 
-        let displayModeItem = NSMenuItem(title: "Menu-Bar Display", action: nil, keyEquivalent: "")
+        let displayModeItem = NSMenuItem(title: L10n.text("settings.menuBarDisplay"), action: nil, keyEquivalent: "")
         let displayModeMenu = NSMenu()
         for mode in StatusItemDisplayMode.allCases {
             let modeItem = NSMenuItem(
@@ -176,15 +176,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         menu.addItem(.separator())
         menu.addItem(NSMenuItem(
-            title: widgetController?.isVisible == true ? "Hide Codex Meter" : "Show Codex Meter",
+            title: widgetController?.isVisible == true ? L10n.text("menu.hideApp") : L10n.text("menu.showApp"),
             action: #selector(toggleWidget),
             keyEquivalent: ""
         ))
-        menu.addItem(NSMenuItem(title: "Reset Position and Size", action: #selector(resetWidgetPlacement), keyEquivalent: ""))
+        menu.addItem(NSMenuItem(title: L10n.text("action.resetPositionAndSize"), action: #selector(resetWidgetPlacement), keyEquivalent: ""))
         menu.addItem(.separator())
-        menu.addItem(NSMenuItem(title: "Settings...", action: #selector(showSettings), keyEquivalent: ","))
+        menu.addItem(NSMenuItem(title: L10n.text("menu.settings"), action: #selector(showSettings), keyEquivalent: ","))
         menu.addItem(.separator())
-        menu.addItem(NSMenuItem(title: "Quit Codex Meter", action: #selector(quit), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: L10n.text("menu.quitApp"), action: #selector(quit), keyEquivalent: "q"))
 
         for item in menu.items {
             if item.submenu == nil {

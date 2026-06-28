@@ -32,8 +32,8 @@ struct UsageClient: Sendable {
                     endpoint: .usage,
                     category: .schemaMismatch,
                     recognizedKeys: EndpointResponseDecoder.recognizedKeys(from: data, endpoint: .usage),
-                    message: "Usage response did not contain a usable Codex window.",
-                    recoverySuggestion: "Copy diagnostics and report the endpoint shape."
+                    message: L10n.text("endpointError.usage.noUsableWindow"),
+                    recoverySuggestion: L10n.text("endpointError.recovery.copyDiagnostics")
                 )
             )
         }

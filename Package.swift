@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "CodexMeter",
+    defaultLocalization: "en",
     platforms: [
         .macOS(.v13)
     ],
@@ -16,7 +17,10 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "CodexMeter",
-            path: "Sources/CodexMeter"
+            path: "Sources/CodexMeter",
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "CodexMeterTests",

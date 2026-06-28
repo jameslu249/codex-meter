@@ -23,15 +23,15 @@ final class LaunchAtLoginService: ObservableObject {
     var displaySummary: String {
         switch status {
         case .enabled:
-            return "Enabled"
+            return L10n.text("launchAtLogin.status.enabled")
         case .requiresApproval:
-            return "Requires approval"
+            return L10n.text("launchAtLogin.status.requiresApproval")
         case .notFound:
-            return "Not available"
+            return L10n.text("launchAtLogin.status.notAvailable")
         case .notRegistered:
-            return "Disabled"
+            return L10n.text("launchAtLogin.status.disabled")
         @unknown default:
-            return "Unknown"
+            return L10n.text("launchAtLogin.status.unknown")
         }
     }
 
@@ -53,7 +53,7 @@ final class LaunchAtLoginService: ObservableObject {
             refresh()
 
             if requiresApproval {
-                lastErrorMessage = "Approve Codex Meter in System Settings to complete setup."
+                lastErrorMessage = L10n.text("launchAtLogin.error.requiresApproval")
             } else {
                 lastErrorMessage = error.localizedDescription
             }

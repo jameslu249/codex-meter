@@ -32,7 +32,7 @@ struct MeterWidgetView: View {
             gauges.append(
                 UsageGaugeData(
                     id: "codex-weekly",
-                    title: "Weekly",
+                    title: L10n.text("usageWindow.weekly.title"),
                     subtitle: "Codex",
                     percent: secondaryWindow.remainingPercent,
                     resetAt: secondaryWindow.resetAt
@@ -60,7 +60,7 @@ struct MeterWidgetView: View {
                 UsageGaugeData(
                     id: "codex-spark",
                     title: "Spark",
-                    subtitle: "5h limit",
+                    subtitle: L10n.text("usageWindow.fiveHourLimit.subtitle"),
                     percent: sparkLimit.remainingPercent,
                     resetAt: sparkLimit.resetAt
                 )
@@ -71,8 +71,8 @@ struct MeterWidgetView: View {
             gauges.append(
                 UsageGaugeData(
                     id: "codex-spark-weekly",
-                    title: "Spark Weekly",
-                    subtitle: "limit",
+                    title: L10n.text("usageWindow.sparkWeekly.displayTitle"),
+                    subtitle: L10n.text("usageWindow.limit.subtitle"),
                     percent: sparkWeeklyLimit.remainingPercent,
                     resetAt: sparkWeeklyLimit.resetAt
                 )
@@ -129,11 +129,11 @@ struct MeterWidgetView: View {
     private var header: some View {
         HStack(spacing: 10) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("Codex Meter")
+                Text(L10n.text("app.name"))
                     .font(.system(size: 20, weight: .semibold, design: .rounded))
                     .foregroundStyle(.primary)
 
-                Text("Codex usage and reset credits")
+                Text(L10n.text("widget.subtitle"))
                     .font(.system(size: 11, weight: .medium, design: .rounded))
                     .foregroundStyle(.secondary)
             }
@@ -142,15 +142,15 @@ struct MeterWidgetView: View {
 
             IconButton(
                 systemName: store.isLoading ? "hourglass" : "arrow.clockwise",
-                help: "Refresh credits",
+                help: L10n.text("help.refreshCredits"),
                 action: {
                     Task {
                         await store.refresh()
                     }
                 }
             )
-            IconButton(systemName: "arrow.up.right.square", help: "Reset position and size", action: onSnap)
-            IconButton(systemName: "eye.slash", help: "Hide widget", action: onHide)
+            IconButton(systemName: "arrow.up.right.square", help: L10n.text("help.resetPositionAndSize"), action: onSnap)
+            IconButton(systemName: "eye.slash", help: L10n.text("help.hideWidget"), action: onHide)
         }
     }
 
@@ -158,7 +158,7 @@ struct MeterWidgetView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .bottom, spacing: 14) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Reset Bank")
+                    Text(L10n.text("endpoint.resetCredits.title"))
                         .font(.system(size: 11, weight: .semibold, design: .rounded))
                         .foregroundStyle(.secondary)
                         .textCase(.uppercase)
@@ -169,7 +169,7 @@ struct MeterWidgetView: View {
                             .foregroundStyle(.primary)
                             .monospacedDigit()
 
-                        Text("available")
+                        Text(L10n.text("resetBank.available"))
                             .font(.system(size: 16, weight: .semibold, design: .rounded))
                             .foregroundStyle(.secondary)
                     }
@@ -214,12 +214,12 @@ struct MeterWidgetView: View {
     @ViewBuilder
     private var resetBankRows: some View {
         if displayedCredits.isEmpty && store.resetCreditRefreshState.isUnavailable {
-            Text("Reset Bank data unavailable.")
+            Text(L10n.text("resetBank.dataUnavailable"))
                 .font(.system(size: 13, weight: .semibold, design: .rounded))
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
         } else if displayedCredits.isEmpty && !store.isLoading {
-            Text("No reset credits returned.")
+            Text(L10n.text("resetBank.empty"))
                 .font(.system(size: 13, weight: .semibold, design: .rounded))
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
@@ -228,7 +228,7 @@ struct MeterWidgetView: View {
                 ProgressView()
                     .controlSize(.small)
 
-                Text("Loading reset bank")
+                Text(L10n.text("resetBank.loading"))
                     .font(.system(size: 13, weight: .semibold, design: .rounded))
                     .foregroundStyle(.secondary)
             }
@@ -245,7 +245,7 @@ struct MeterWidgetView: View {
     private var usageCard: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .firstTextBaseline) {
-                Text("Usage remaining")
+                Text(L10n.text("usage.remaining.title"))
                     .font(.system(size: 11, weight: .semibold, design: .rounded))
                     .foregroundStyle(.secondary)
                     .textCase(.uppercase)
@@ -253,7 +253,7 @@ struct MeterWidgetView: View {
                 Spacer()
 
                 if let planType = store.usage?.planType {
-                    Text("\(planType.capitalized) plan")
+                    Text(L10n.text("usage.plan", planType.capitalized))
                         .font(.system(size: 11, weight: .semibold, design: .rounded))
                         .foregroundStyle(.secondary)
                 }
@@ -290,7 +290,7 @@ struct MeterWidgetView: View {
                     ProgressView()
                         .controlSize(.small)
 
-                    Text("Loading usage windows")
+                    Text(L10n.text("usage.loadingWindows"))
                         .font(.system(size: 13, weight: .semibold, design: .rounded))
                         .foregroundStyle(.secondary)
                 }
@@ -343,7 +343,7 @@ struct MeterWidgetView: View {
         let tint = runwayConfidenceTint(for: forecast)
 
         return RunwayInlineData(
-            title: "Weekly runway",
+            title: L10n.text("runway.inline.title"),
             status: runwayConfidenceTitle(for: forecast),
             icon: runwayConfidenceIcon(for: forecast),
             tint: tint,
@@ -370,7 +370,7 @@ struct MeterWidgetView: View {
     }
 
     private func runwayConfidenceTitle(for forecast: UsageWindowForecast?) -> String {
-        forecast?.confidence.rawValue ?? "Limited data"
+        forecast?.confidence.title ?? L10n.text("runway.confidence.limitedData")
     }
 
     private func runwayConfidenceTint(for forecast: UsageWindowForecast?) -> Color {
@@ -398,30 +398,30 @@ struct MeterWidgetView: View {
 
     private func runwayHeadline(for forecast: UsageWindowForecast?, group: RunwayForecastGroup) -> String {
         guard store.hasRunwayHistory, let forecast else {
-            return "\(group.label) runway learning"
+            return L10n.text("runway.headline.learning", group.label)
         }
 
         if forecast.isLimitedData {
-            return "\(group.label) runway learning"
+            return L10n.text("runway.headline.learning", group.label)
         }
 
         if forecast.willExhaustBeforeReset {
-            return "May run out \(runwayExhaustionText(for: forecast))"
+            return L10n.text("runway.headline.mayRunOut", runwayExhaustionText(for: forecast))
         }
 
         switch forecast.confidence {
         case .stable:
-            return "Likely safe through \(runwayResetLabel(for: forecast))"
+            return L10n.text("runway.headline.safeThrough", runwayResetLabel(for: forecast))
         case .variable:
-            return "Variable pace toward \(runwayResetLabel(for: forecast))"
+            return L10n.text("runway.headline.variableToward", runwayResetLabel(for: forecast))
         case .limitedData:
-            return "\(group.label) runway learning"
+            return L10n.text("runway.headline.learning", group.label)
         }
     }
 
     private func runwayDetailText(for forecast: UsageWindowForecast?, group: RunwayForecastGroup) -> String {
         guard let forecast, !forecast.isLimitedData else {
-            return "History is local. Need a few refreshes before predictions appear."
+            return L10n.text("runway.detail.learning")
         }
 
         let estimateText = runwayEstimateText(for: forecast)
@@ -429,16 +429,16 @@ struct MeterWidgetView: View {
 
         if forecast.willExhaustBeforeReset {
             if let estimateText {
-                return "\(forecast.kind.title) · Reset \(resetText) · \(estimateText)"
+                return L10n.text("runway.detail.resetWithEstimate", forecast.kind.title, resetText, estimateText)
             }
-            return "\(forecast.kind.title) · Reset \(resetText) · observed pace"
+            return L10n.text("runway.detail.resetObservedPace", forecast.kind.title, resetText)
         }
 
         if let estimateText {
-            return "\(forecast.kind.title) · \(estimateText) by \(resetText)"
+            return L10n.text("runway.detail.estimateByReset", forecast.kind.title, estimateText, resetText)
         }
 
-        return "\(forecast.kind.title) · Reset \(resetText) · observed pace"
+        return L10n.text("runway.detail.resetObservedPace", forecast.kind.title, resetText)
     }
 
     private func forecast(for group: RunwayForecastGroup) -> UsageWindowForecast? {
@@ -449,7 +449,7 @@ struct MeterWidgetView: View {
 
     private func runwayExhaustionText(for forecast: UsageWindowForecast) -> String {
         guard let projectedExhaustionDate = forecast.projectedExhaustionDate else {
-            return "before reset"
+            return L10n.text("runway.exhaustion.beforeReset")
         }
 
         // The projection is a linear extrapolation from observed pace, so we never
@@ -466,21 +466,21 @@ struct MeterWidgetView: View {
     private func runwayEstimateText(for forecast: UsageWindowForecast) -> String? {
         if forecast.confidence == .stable, let estimate = forecast.estimatedRemainingAtReset {
             let clamped = max(0, Int(estimate.rounded()))
-            return "Est. \(clamped)%"
+            return L10n.text("runway.estimate.single", clamped)
         }
 
         if let range = forecast.estimatedRemainingRangeAtReset {
             let lower = max(0, Int(range.lowerBound.rounded()))
             let upper = max(0, Int(range.upperBound.rounded()))
             if lower == upper {
-                return "Est. \(lower)%"
+                return L10n.text("runway.estimate.single", lower)
             }
-            return "Est. \(lower)-\(upper)%"
+            return L10n.text("runway.estimate.range", lower, upper)
         }
 
         if let estimate = forecast.estimatedRemainingAtReset {
             let clamped = max(0, Int(estimate.rounded()))
-            return "Est. \(clamped)%"
+            return L10n.text("runway.estimate.single", clamped)
         }
 
         return nil
@@ -499,17 +499,17 @@ struct MeterWidgetView: View {
 
         return VStack(alignment: .leading, spacing: 10) {
             StatusPill(
-                title: failure?.statusTitle ?? "Needs attention",
+                title: failure?.statusTitle ?? L10n.text("failure.status.genericNeedsAttention"),
                 systemName: noDataStateSystemName(for: failure),
                 tint: noDataStateTint(for: failure)
             )
 
-            Text(failure?.statusTitle ?? "Codex data unavailable")
+            Text(failure?.statusTitle ?? L10n.text("widget.unavailable.title"))
                 .font(.system(size: 17, weight: .semibold, design: .rounded))
                 .foregroundStyle(.primary)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Text(failure?.detailText ?? "Refresh when Codex is available again.")
+            Text(failure?.detailText ?? L10n.text("widget.unavailable.detail"))
                 .font(.system(size: 13, weight: .medium, design: .rounded))
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -528,7 +528,7 @@ struct MeterWidgetView: View {
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "arrow.clockwise")
-                    Text("Try Again")
+                    Text(L10n.text("action.tryAgain"))
                 }
                 .frame(maxWidth: .infinity, minHeight: 42)
             }
@@ -566,7 +566,7 @@ struct MeterWidgetView: View {
                 .frame(maxWidth: .infinity, minHeight: 32)
             }
             .buttonStyle(WidgetButtonStyle())
-            .help("Change color mood")
+            .help(L10n.text("help.changeColorMood"))
 
             Spacer(minLength: 12)
         }
@@ -578,13 +578,13 @@ struct MeterWidgetView: View {
         } label: {
             HStack(spacing: 8) {
                 Image(systemName: "doc.on.doc")
-                Text(store.diagnosticsCopyMessage ?? "Copy Diagnostics")
+                Text(store.diagnosticsCopyMessage ?? L10n.text("action.copyDiagnostics"))
             }
             .font(.system(size: 12, weight: .semibold, design: .rounded))
             .frame(maxWidth: .infinity, minHeight: 34)
         }
         .buttonStyle(WidgetButtonStyle())
-        .help("Copy privacy-safe diagnostics")
+        .help(L10n.text("help.copyDiagnostics"))
     }
 
     private func endpointIssueRow(for state: EndpointRefreshState) -> some View {
@@ -600,7 +600,7 @@ struct MeterWidgetView: View {
 
     private func unavailableEndpointContent(for state: EndpointRefreshState) -> some View {
         VStack(alignment: .leading, spacing: 9) {
-            Text(state.failure?.detailText ?? "\(state.endpoint.title) data unavailable.")
+            Text(state.failure?.detailText ?? L10n.text("endpoint.dataUnavailable", state.endpoint.title))
                 .font(.system(size: 13, weight: .semibold, design: .rounded))
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
@@ -627,7 +627,7 @@ struct MeterWidgetView: View {
         }
 
         if state.isStale {
-            return "\(failure.detailText) Showing last known good data."
+            return L10n.text("endpoint.issue.showingLastKnownGood", failure.detailText)
         }
 
         return failure.detailText
@@ -642,13 +642,13 @@ struct MeterWidgetView: View {
     }
 
     private var usageFreshnessText: String {
-        let percentText = usageRemainingPercent.map { "\($0)% remaining" } ?? "Usage data available"
-        return "\(percentText) - \(timestampText(for: store.usageRefreshState))"
+        let percentText = usageRemainingPercent.map { L10n.text("usage.percentRemaining", $0) } ?? L10n.text("usage.dataAvailable")
+        return L10n.text("usage.freshness", percentText, timestampText(for: store.usageRefreshState))
     }
 
     private var usageAccessibilityText: String {
-        let percentText = usageRemainingPercent.map { "\($0) percent remaining" } ?? "Usage data available"
-        return "\(percentText), \(store.usageRefreshState.title.lowercased()), \(timestampText(for: store.usageRefreshState).lowercased())"
+        let percentText = usageRemainingPercent.map { L10n.text("usage.accessibility.percentRemaining", $0) } ?? L10n.text("usage.dataAvailable")
+        return L10n.text("usage.accessibility.summary", percentText, store.usageRefreshState.title.lowercased(), timestampText(for: store.usageRefreshState).lowercased())
     }
 
     private var usageRemainingPercent: Int? {
@@ -694,10 +694,10 @@ struct MeterWidgetView: View {
 
     private var weeklyResetText: String {
         guard let resetAt = store.usage?.rateLimit?.secondaryWindow?.resetAt else {
-            return "Weekly reset unavailable"
+            return L10n.text("usage.weeklyResetUnavailable")
         }
 
-        return "Codex weekly reset: \(Self.weeklyResetFormatter.string(from: resetAt))"
+        return L10n.text("usage.weeklyReset", Self.weeklyResetFormatter.string(from: resetAt))
     }
 
     private static let timeFormatter: DateFormatter = {
@@ -715,25 +715,25 @@ struct MeterWidgetView: View {
 
     private static let weeklyResetFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h:mm a"
+        formatter.setLocalizedDateFormatFromTemplate("MMM d h:mm a")
         return formatter
     }()
 
     private static let runwayDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h:mm a"
+        formatter.setLocalizedDateFormatFromTemplate("MMM d h:mm a")
         return formatter
     }()
 
     private static let runwayHourFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h a"
+        formatter.setLocalizedDateFormatFromTemplate("MMM d h a")
         return formatter
     }()
 
     private static let runwayDayFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d"
+        formatter.setLocalizedDateFormatFromTemplate("MMM d")
         return formatter
     }()
 }
@@ -745,9 +745,9 @@ private enum RunwayForecastGroup {
     var title: String {
         switch self {
         case .codex:
-            return "Codex runway"
+            return L10n.text("runway.group.codexTitle")
         case .spark:
-            return "Spark runway"
+            return L10n.text("runway.group.sparkTitle")
         }
     }
 
@@ -789,7 +789,7 @@ private struct ResetBankRow: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
-                    Text("Reset \(index)")
+                    Text(L10n.text("resetBank.row.title", index))
                         .font(.system(size: 12, weight: .bold, design: .rounded))
                         .foregroundStyle(.primary)
 
@@ -799,8 +799,8 @@ private struct ResetBankRow: View {
                 }
 
                 HStack(spacing: 10) {
-                    Text("Granted \(Self.compactDateFormatter.string(from: credit.grantedAt))")
-                    Text("Expires \(Self.compactDateFormatter.string(from: credit.expiresAt))")
+                    Text(L10n.text("resetBank.row.granted", Self.compactDateFormatter.string(from: credit.grantedAt)))
+                    Text(L10n.text("resetBank.row.expires", Self.compactDateFormatter.string(from: credit.expiresAt)))
                 }
                 .font(.system(size: 11, weight: .semibold, design: .rounded))
                 .foregroundStyle(.secondary)
@@ -821,7 +821,7 @@ private struct ResetBankRow: View {
 
     private static let compactDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, h:mm a"
+        formatter.setLocalizedDateFormatFromTemplate("MMM d h:mm a")
         return formatter
     }()
 }
@@ -1176,10 +1176,10 @@ private extension UsageGaugeData {
 
     var resetText: String {
         guard let resetAt else {
-            return "5h window"
+            return L10n.text("usageMeter.reset.fiveHourWindow")
         }
 
-        return "resets \(UsageMeterFormatters.timeFormatter.string(from: resetAt))"
+        return L10n.text("usageMeter.reset.resetsAt", UsageMeterFormatters.timeFormatter.string(from: resetAt))
     }
 
     var statusTint: Color {
@@ -1261,7 +1261,7 @@ private struct EndpointIssueRow: View {
                                 .strokeBorder(tint.opacity(0.20), lineWidth: 1)
                         }
                 }
-                .help(copyMessage ?? "Copy Diagnostics")
+                .help(copyMessage ?? L10n.text("action.copyDiagnostics"))
             }
             .padding(.horizontal, 9)
             .padding(.vertical, 7)
