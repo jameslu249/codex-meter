@@ -35,6 +35,10 @@ If that file is missing or expired, the app should show a clear local-auth error
 - Tokens are never printed, logged, stored, or displayed.
 - Documentation is updated for user-facing behavior changes.
 
+## Contributor Credit
+
+Public credit is preserved through merged PRs, git history, and [CONTRIBUTORS.md](CONTRIBUTORS.md). If you want GitHub's contributor graph to associate commits with your account, make sure your local git author email is connected to your GitHub account before committing.
+
 ## Design Principles
 
 - Make the widget glanceable first.

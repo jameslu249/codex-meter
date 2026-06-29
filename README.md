@@ -164,6 +164,8 @@ Contributions are welcome. Good first issues include:
 
 Start with [CONTRIBUTING.md](CONTRIBUTING.md).
 
+Contributor credits are listed in [CONTRIBUTORS.md](CONTRIBUTORS.md).
+
 ## Privacy And Security
 
 - Read [PRIVACY.md](PRIVACY.md) before changing auth or networking behavior.
