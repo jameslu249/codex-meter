@@ -12,11 +12,11 @@ enum MeterStyle: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .circular:
-            return "Circular"
+            return L10n.text("meter.style.circular")
         case .horizontal:
-            return "Bars"
+            return L10n.text("meter.style.bars")
         case .battery:
-            return "Battery"
+            return L10n.text("meter.style.battery")
         }
     }
 }

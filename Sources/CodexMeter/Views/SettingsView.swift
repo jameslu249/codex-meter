@@ -10,26 +10,26 @@ struct SettingsView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Codex Meter")
+                    Text(L10n.text("app.name"))
                         .font(.system(size: 24, weight: .semibold, design: .rounded))
                         .foregroundStyle(.primary)
 
-                    Text("Menu-bar usage and reset-credit monitor")
+                    Text(L10n.text("settings.subtitle"))
                         .font(.system(size: 12, weight: .medium, design: .rounded))
                         .foregroundStyle(.secondary)
                 }
 
                 Divider()
 
-                Toggle("Auto refresh while running", isOn: $store.autoRefreshEnabled)
+                Toggle(L10n.text("settings.autoRefresh"), isOn: $store.autoRefreshEnabled)
 
                 HStack {
-                    Text("Refresh every")
+                    Text(L10n.text("settings.refreshEvery"))
                         .foregroundStyle(.primary)
 
                     Spacer()
 
-                    Picker("Refresh interval", selection: $store.refreshIntervalSeconds) {
+                    Picker(L10n.text("settings.refreshInterval"), selection: $store.refreshIntervalSeconds) {
                         ForEach(refreshChoices, id: \.self) { seconds in
                             Text(intervalTitle(seconds))
                                 .tag(seconds)
@@ -39,15 +39,15 @@ struct SettingsView: View {
                     .frame(width: 128)
                 }
 
-                Toggle("Show Codex-Spark meter", isOn: $store.showSparkUsage)
+                Toggle(L10n.text("settings.showSpark"), isOn: $store.showSparkUsage)
 
                 HStack {
-                    Text("Meter style")
+                    Text(L10n.text("settings.meterStyle"))
                         .foregroundStyle(.primary)
 
                     Spacer()
 
-                    Picker("Meter style", selection: $store.meterStyle) {
+                    Picker(L10n.text("settings.meterStyle"), selection: $store.meterStyle) {
                         ForEach(MeterStyle.allCases) { style in
                             Text(style.title)
                                 .tag(style)
@@ -59,12 +59,12 @@ struct SettingsView: View {
                 }
 
                 HStack {
-                    Text("Menu-bar display")
+                    Text(L10n.text("settings.menuBarDisplay"))
                         .foregroundStyle(.primary)
 
                     Spacer()
 
-                    Picker("Menu-bar display", selection: $store.statusItemDisplayMode) {
+                    Picker(L10n.text("settings.menuBarDisplay"), selection: $store.statusItemDisplayMode) {
                         ForEach(StatusItemDisplayMode.allCases) { mode in
                             Text("\(mode.title) (\(statusItemPreview(for: mode)))")
                                 .tag(mode)
@@ -74,12 +74,12 @@ struct SettingsView: View {
                     .frame(width: 248)
                 }
 
-                Text("Preview: \(statusItemPreview(for: store.statusItemDisplayMode))")
+                Text(L10n.text("settings.preview", statusItemPreview(for: store.statusItemDisplayMode)))
                     .font(.system(size: 11, weight: .medium, design: .rounded))
                     .foregroundStyle(.secondary)
 
                 Toggle(
-                    "Launch Codex Meter at Login",
+                    L10n.text("settings.launchAtLogin"),
                     isOn: Binding(
                         get: { store.launchAtLoginEnabled },
                         set: { enabled in
@@ -97,12 +97,12 @@ struct SettingsView: View {
                         ProgressView()
                             .controlSize(.small)
 
-                        Text("Updating launch-at-login setting")
+                        Text(L10n.text("settings.launchAtLoginUpdating"))
                             .font(.system(size: 11, weight: .medium, design: .rounded))
                             .foregroundStyle(.secondary)
                     }
                 } else {
-                    Text("Launch-at-login status: \(launchAtLoginService.displaySummary)")
+                    Text(L10n.text("settings.launchAtLoginStatus", launchAtLoginService.displaySummary))
                         .font(.system(size: 11, weight: .medium, design: .rounded))
                         .foregroundStyle(.secondary)
                 }
@@ -111,7 +111,7 @@ struct SettingsView: View {
                     Button {
                         launchAtLoginService.openLoginItemsSettings()
                     } label: {
-                        Text("Open Login Items...")
+                        Text(L10n.text("action.openLoginItems"))
                     }
                 }
 
@@ -124,7 +124,7 @@ struct SettingsView: View {
                 Divider()
 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("Smart Alerts")
+                    Text(L10n.text("settings.smartAlerts"))
                         .font(.system(size: 15, weight: .semibold, design: .rounded))
                         .foregroundStyle(.primary)
 
@@ -138,7 +138,7 @@ struct SettingsView: View {
                         }
 
                         if store.notificationAuthStatus == .notDetermined {
-                            Button("Enable Local Alerts") {
+                            Button(L10n.text("settings.enableLocalAlerts")) {
                                 Task {
                                     await store.requestNotificationPermission()
                                 }
@@ -146,56 +146,56 @@ struct SettingsView: View {
                             .buttonStyle(WidgetButtonStyle())
                             .frame(maxWidth: .infinity, minHeight: 34)
                         } else if store.notificationAuthStatus == .denied {
-                            Text("Mac notifications are blocked. Open System Settings > Notifications to allow Codex Meter.")
+                            Text(L10n.text("settings.notificationsBlocked"))
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
                                 .foregroundStyle(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
                         } else if !store.canSendTestNotification {
-                            Text("Your notifications are in quiet mode. Alerts still arrive in Notification Center.")
+                            Text(L10n.text("settings.notificationsQuiet"))
                                 .font(.system(size: 11, weight: .medium, design: .rounded))
                                 .foregroundStyle(.secondary)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
 
-                        Text("Mac notifications only. No account or analytics.")
+                        Text(L10n.text("settings.notificationsPrivacy"))
                             .font(.system(size: 11, weight: .medium, design: .rounded))
                             .foregroundStyle(.secondary)
                     }
 
                     VStack(alignment: .leading, spacing: 10) {
-                        Toggle("Enable smart alerts", isOn: $store.smartAlertsEnabled)
+                        Toggle(L10n.text("settings.enableSmartAlerts"), isOn: $store.smartAlertsEnabled)
                             .disabled(store.notificationAuthStatus != .authorized && store.notificationAuthStatus != .provisional && store.notificationAuthStatus != .ephemeral)
 
-                        Toggle("Low capacity thresholds", isOn: $store.alertThresholdsEnabled)
+                        Toggle(L10n.text("settings.lowCapacityThresholds"), isOn: $store.alertThresholdsEnabled)
                             .disabled(!store.smartAlertsEnabled)
 
                         if store.alertThresholdsEnabled && store.smartAlertsEnabled {
                             HStack(alignment: .center, spacing: 6) {
-                                Text("Thresholds")
+                                Text(L10n.text("settings.thresholds"))
                                     .font(.system(size: 12, weight: .medium, design: .rounded))
                                     .foregroundStyle(.secondary)
                                 Spacer()
                             }
                             VStack(alignment: .leading, spacing: 6) {
-                                Toggle("Warn below 20%", isOn: $store.alert20PercentEnabled)
+                                Toggle(L10n.text("settings.warnBelow20"), isOn: $store.alert20PercentEnabled)
                                     .disabled(!store.smartAlertsEnabled)
-                                Toggle("Warn below 10%", isOn: $store.alert10PercentEnabled)
+                                Toggle(L10n.text("settings.warnBelow10"), isOn: $store.alert10PercentEnabled)
                                     .disabled(!store.smartAlertsEnabled)
-                                Toggle("Warn below 5%", isOn: $store.alert5PercentEnabled)
+                                Toggle(L10n.text("settings.warnBelow5"), isOn: $store.alert5PercentEnabled)
                                     .disabled(!store.smartAlertsEnabled)
                             }
                             .padding(.leading, 10)
                         }
 
-                        Toggle("Projected to run out before reset", isOn: $store.alertProjectedRunoutEnabled)
+                        Toggle(L10n.text("settings.projectedRunout"), isOn: $store.alertProjectedRunoutEnabled)
                             .disabled(!store.smartAlertsEnabled)
-                        Toggle("Reset credit expires within 24h", isOn: $store.alertCreditsExpiringEnabled)
+                        Toggle(L10n.text("settings.creditExpiresSoon"), isOn: $store.alertCreditsExpiringEnabled)
                             .disabled(!store.smartAlertsEnabled)
-                        Toggle("Capacity reset available again", isOn: $store.alertResetAvailableEnabled)
+                        Toggle(L10n.text("settings.capacityResetAvailable"), isOn: $store.alertResetAvailableEnabled)
                             .disabled(!store.smartAlertsEnabled)
                     }
 
-                    Button("Send Test Notification") {
+                    Button(L10n.text("settings.sendTestNotification")) {
                         Task {
                             await store.sendTestNotification()
                         }
@@ -213,7 +213,7 @@ struct SettingsView: View {
                             await store.refresh()
                         }
                     } label: {
-                        Label("Refresh Now", systemImage: "arrow.clockwise")
+                        Label(L10n.text("action.refreshNow"), systemImage: "arrow.clockwise")
                     }
 
                     Spacer()
@@ -227,7 +227,7 @@ struct SettingsView: View {
                     HStack(spacing: 8) {
                         Image(systemName: store.hasRunwayHistory ? "clock.arrow.trianglehead.counterclockwise" : "clock")
                             .foregroundStyle(.secondary)
-                        Text("Runway prediction")
+                        Text(L10n.text("settings.runwayPrediction"))
                             .font(.system(size: 12, weight: .semibold, design: .rounded))
                             .foregroundStyle(.primary)
                     }
@@ -240,15 +240,15 @@ struct SettingsView: View {
                 Divider()
 
                 VStack(alignment: .leading, spacing: 8) {
-                    EndpointSettingsRow(title: "Usage", state: store.usageRefreshState)
-                    EndpointSettingsRow(title: "Reset Bank", state: store.resetCreditRefreshState)
+                    EndpointSettingsRow(title: L10n.text("endpoint.usage.title"), state: store.usageRefreshState)
+                    EndpointSettingsRow(title: L10n.text("endpoint.resetCredits.title"), state: store.resetCreditRefreshState)
                 }
 
                 HStack {
                     Button {
                         store.copyDiagnostics()
                     } label: {
-                        Label(store.diagnosticsCopyMessage ?? "Copy Diagnostics", systemImage: "doc.on.doc")
+                        Label(store.diagnosticsCopyMessage ?? L10n.text("action.copyDiagnostics"), systemImage: "doc.on.doc")
                     }
 
                     Spacer()
@@ -267,9 +267,9 @@ struct SettingsView: View {
 
     private var runwayStateDescription: String {
         if store.hasRunwayHistory {
-            return "History is stored locally in Application Support and used for runway estimates."
+            return L10n.text("settings.runwayHistoryReady")
         } else {
-            return "Runway needs a few refreshes before predictions appear. History is stored locally on this Mac."
+            return L10n.text("settings.runwayHistoryLearning")
         }
     }
 
@@ -303,10 +303,10 @@ struct SettingsView: View {
 
     private var lastUpdatedText: String {
         guard let lastUpdated = store.lastUpdated else {
-            return "Not updated yet"
+            return L10n.text("refreshState.timestamp.notUpdatedYet")
         }
 
-        return "Updated \(Self.timeFormatter.string(from: lastUpdated))"
+        return L10n.text("refreshState.timestamp.updated", Self.timeFormatter.string(from: lastUpdated))
     }
 
     private func statusItemPreview(for mode: StatusItemDisplayMode) -> String {
@@ -324,11 +324,11 @@ struct SettingsView: View {
 
     private func intervalTitle(_ seconds: TimeInterval) -> String {
         if seconds < 60 {
-            return "\(Int(seconds)) seconds"
+            return L10n.text("settings.interval.seconds", Int(seconds))
         }
 
         let minutes = Int(seconds / 60)
-        return minutes == 1 ? "1 minute" : "\(minutes) minutes"
+        return minutes == 1 ? L10n.text("settings.interval.oneMinute") : L10n.text("settings.interval.minutes", minutes)
     }
 
     private static let timeFormatter: DateFormatter = {

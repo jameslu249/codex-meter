@@ -27,7 +27,7 @@ final class SettingsWindowController {
     }
 
     private func configureWindow() {
-        window.title = "Codex Meter Settings"
+        window.title = L10n.text("settings.windowTitle")
         window.isReleasedWhenClosed = false
         window.level = .floating
         window.contentView = NSHostingView(

@@ -14,15 +14,15 @@ extension NotificationAuthorizationStatus {
     var label: String {
         switch self {
         case .notDetermined:
-            return "Notifications not requested"
+            return L10n.text("notification.status.notDetermined")
         case .denied:
-            return "Notifications blocked"
+            return L10n.text("notification.status.denied")
         case .ephemeral:
-            return "Private / ephemeral notifications"
+            return L10n.text("notification.status.ephemeral")
         case .provisional:
-            return "Quiet delivery"
+            return L10n.text("notification.status.provisional")
         case .authorized:
-            return "Notifications enabled"
+            return L10n.text("notification.status.authorized")
         }
     }
 }

@@ -28,11 +28,13 @@ Sources/CodexMeter/Services/RateLimitResetClient.swift
 Sources/CodexMeter/Services/UsageHistoryStore.swift
 Sources/CodexMeter/Services/RunwayPredictionService.swift
 Sources/CodexMeter/Services/SmartNotificationService.swift
+Sources/CodexMeter/Support/Localization.swift
 Sources/CodexMeter/Models/UsageSnapshot.swift
 Sources/CodexMeter/Models/RunwayModels.swift
 Sources/CodexMeter/Models/AlertPreferences.swift
 Sources/CodexMeter/Views/MeterWidgetView.swift
 Sources/CodexMeter/Views/SettingsView.swift
+Sources/CodexMeter/Resources/
 ```
 
 ## Auth Boundary
@@ -69,6 +71,12 @@ These are not public API contracts. Decode defensively, keep optional fields opt
 - meter style
 
 All network refreshes flow through `WidgetStore.refresh()` so loading, errors, usage, and reset-credit state stay consistent.
+
+## Localization
+
+User-facing app strings are loaded through `L10n` from SwiftPM-bundled `Localizable.strings` files. English is the default localization and fallback. The app currently ships Simplified Chinese, Japanese, and Korean resources for the widget, settings, menu-bar menu, notifications, and visible error/recovery text.
+
+Keep protocol keys, endpoint names, diagnostic field labels, and persisted `UserDefaults` keys out of localization unless their meaning is purely presentational. DMG and local run scripts copy the SwiftPM resource bundle into the generated `.app` so packaged builds can resolve `Bundle.module` resources.
 
 ## Meter Rules
 

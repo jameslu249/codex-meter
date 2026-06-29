@@ -48,7 +48,7 @@ final class WidgetWindowController {
     }
 
     private func configurePanel() {
-        panel.title = "Codex Meter"
+        panel.title = L10n.text("app.name")
         panel.isReleasedWhenClosed = false
         panel.isOpaque = false
         panel.backgroundColor = .clear

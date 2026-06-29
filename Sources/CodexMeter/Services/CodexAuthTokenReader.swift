@@ -41,18 +41,18 @@ enum CodexAuthError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingAuthFile:
-            return "No local Codex auth file was found."
+            return L10n.text("auth.error.missingFile")
         case .missingAccessToken:
-            return "The Codex auth file does not contain an access token."
+            return L10n.text("auth.error.missingAccessToken")
         }
     }
 
     var recoverySuggestion: String? {
         switch self {
         case .missingAuthFile:
-            return "Sign in to Codex on this Mac, then refresh."
+            return L10n.text("failure.detail.missingAuth")
         case .missingAccessToken:
-            return "Refresh your Codex sign-in, then try again."
+            return L10n.text("auth.recovery.refreshSignIn")
         }
     }
 }

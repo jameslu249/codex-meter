@@ -30,7 +30,7 @@ final class StatusItemSnapshotTests: XCTestCase {
 
         XCTAssertEqual(snapshot.windows.count, 1)
         XCTAssertFalse(snapshot.windows.contains { $0.isSpark })
-        XCTAssertEqual(snapshot.statusText, "5h 80%")
+        XCTAssertEqual(snapshot.statusText, "\(L10n.text("duration.hours.compact", 5)) 80%")
     }
 
     func testStaleThresholdRespectsConfiguredRefreshCadence() throws {

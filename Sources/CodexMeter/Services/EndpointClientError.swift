@@ -13,8 +13,8 @@ enum EndpointClientError: Error {
             return EndpointFailure(
                 endpoint: endpoint,
                 category: .invalidResponse,
-                message: "The \(endpoint.title.lowercased()) service returned an invalid response.",
-                recoverySuggestion: "Try refreshing again."
+                message: L10n.text("endpointError.invalidResponse.message", endpoint.title.lowercased()),
+                recoverySuggestion: L10n.text("endpointError.recovery.refreshAgain")
             )
         case .httpFailure(let statusCode, let endpoint):
             if statusCode == 401 || statusCode == 403 {
@@ -22,8 +22,8 @@ enum EndpointClientError: Error {
                     endpoint: endpoint,
                     category: .expiredSession,
                     statusCode: statusCode,
-                    message: "Codex sign-in is not authorized for \(endpoint.title.lowercased()) lookup.",
-                    recoverySuggestion: "Sign in to Codex again, then refresh."
+                    message: L10n.text("endpointError.expiredSession.message", endpoint.title.lowercased()),
+                    recoverySuggestion: L10n.text("failure.detail.expiredSession")
                 )
             }
 
@@ -31,8 +31,8 @@ enum EndpointClientError: Error {
                 endpoint: endpoint,
                 category: .httpFailure,
                 statusCode: statusCode,
-                message: "The \(endpoint.title.lowercased()) service returned HTTP \(statusCode).",
-                recoverySuggestion: "Try again in a moment."
+                message: L10n.text("endpointError.httpFailure.message", endpoint.title.lowercased(), statusCode),
+                recoverySuggestion: L10n.text("endpointError.recovery.trySoon")
             )
         case .decodeFailure(let failure), .validationFailure(let failure):
             return failure
@@ -41,17 +41,17 @@ enum EndpointClientError: Error {
                 endpoint: endpoint,
                 category: .networkFailure,
                 message: sanitizedTransportMessage(error),
-                recoverySuggestion: "Check your connection, then refresh."
+                recoverySuggestion: L10n.text("endpointError.recovery.checkConnection")
             )
         }
     }
 
     private func sanitizedTransportMessage(_ error: Error) -> String {
         if let urlError = error as? URLError {
-            return "Network error: \(urlError.code)"
+            return L10n.text("endpointError.network.code", String(describing: urlError.code))
         }
 
-        return "Network error while loading endpoint data."
+        return L10n.text("endpointError.network.generic")
     }
 }
 
@@ -114,8 +114,8 @@ enum EndpointResponseDecoder {
             category: category,
             decoderPath: path,
             recognizedKeys: keys,
-            message: "Could not decode \(expectedType) response.",
-            recoverySuggestion: "Copy diagnostics and report the endpoint shape."
+            message: L10n.text("endpointError.decode.message", expectedType),
+            recoverySuggestion: L10n.text("endpointError.recovery.copyDiagnostics")
         )
     }
 

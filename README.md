@@ -12,6 +12,7 @@ It reads your existing local Codex session, floats in the top-right corner, and 
 - **Health colors**: green when plenty remains, amber as usage drops, red near depletion.
 - **Resizable floating panel**: lives in the top-right corner and can reset to its default size and position.
 - **Menu-bar controls**: show/hide, refresh, reset position and size, settings, quit.
+- **Localized UI**: follows macOS language preferences with English, Simplified Chinese, Japanese, and Korean strings.
 - **Local-first privacy**: no analytics, no third-party SDKs, no token logging.
 
 ## Screenshots
@@ -48,6 +49,10 @@ The app stores only lightweight UI preferences in `UserDefaults`, including:
 - refresh interval
 - meter style
 - whether to show Codex-Spark meters
+
+## Localization
+
+Codex Meter follows the user's macOS language preferences. The app includes English fallback strings plus Simplified Chinese, Japanese, and Korean localizations for the widget, settings window, menu-bar menu, local notifications, and user-facing error states.
 
 ## Interface
 
@@ -138,8 +143,9 @@ Sources/CodexMeter/Controllers/  AppKit panel and settings window controllers
 Sources/CodexMeter/Models/       Decodable response models and UI enums
 Sources/CodexMeter/Services/     Auth token reader and endpoint clients
 Sources/CodexMeter/Stores/       Observable widget state and preferences
-Sources/CodexMeter/Support/      Menu-bar icon and screen placement helpers
+Sources/CodexMeter/Support/      Localization, menu-bar icon, and screen placement helpers
 Sources/CodexMeter/Views/        SwiftUI widget and settings views
+Sources/CodexMeter/Resources/    Localized strings bundled by SwiftPM
 Resources/                       App icon assets
 script/                          Build and launch helper
 docs/                            Architecture, release notes, and media

@@ -17,6 +17,7 @@ APP_MACOS="$APP_CONTENTS/MacOS"
 APP_RESOURCES="$APP_CONTENTS/Resources"
 APP_BINARY="$APP_MACOS/$APP_NAME"
 INFO_PLIST="$APP_CONTENTS/Info.plist"
+RESOURCE_BUNDLE_NAME="CodexMeter_CodexMeter.bundle"
 
 VERSION="${VERSION:-}"
 if [[ -z "$VERSION" ]]; then
@@ -78,7 +79,8 @@ if [[ -f "$CHECKSUM_PATH" ]]; then
 fi
 
 swift build -c release
-BUILD_BINARY="$(swift build -c release --show-bin-path)/$APP_NAME"
+BUILD_DIR="$(swift build -c release --show-bin-path)"
+BUILD_BINARY="$BUILD_DIR/$APP_NAME"
 
 mkdir -p "$APP_MACOS" "$APP_RESOURCES"
 cp "$BUILD_BINARY" "$APP_BINARY"
@@ -86,6 +88,10 @@ chmod +x "$APP_BINARY"
 
 if [[ -f "$ROOT_DIR/Resources/AppIcon.icns" ]]; then
   cp "$ROOT_DIR/Resources/AppIcon.icns" "$APP_RESOURCES/AppIcon.icns"
+fi
+
+if [[ -d "$BUILD_DIR/$RESOURCE_BUNDLE_NAME" ]]; then
+  /usr/bin/ditto "$BUILD_DIR/$RESOURCE_BUNDLE_NAME" "$APP_RESOURCES/$RESOURCE_BUNDLE_NAME"
 fi
 
 cat >"$INFO_PLIST" <<PLIST
@@ -97,12 +103,21 @@ cat >"$INFO_PLIST" <<PLIST
   <string>$APP_NAME</string>
   <key>CFBundleDisplayName</key>
   <string>$DISPLAY_NAME</string>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
   <key>CFBundleIconFile</key>
   <string>AppIcon</string>
   <key>CFBundleIdentifier</key>
   <string>$BUNDLE_ID</string>
   <key>CFBundleName</key>
   <string>$DISPLAY_NAME</string>
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>en</string>
+    <string>zh-Hans</string>
+    <string>ja</string>
+    <string>ko</string>
+  </array>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>

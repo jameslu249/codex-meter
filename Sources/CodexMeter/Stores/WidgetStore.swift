@@ -150,8 +150,8 @@ final class WidgetStore: ObservableObject {
         }
 
         await notificationService.sendNotification(
-            title: "Codex Meter test alert",
-            body: "Local smart alert pipeline is working.",
+            title: L10n.text("notification.test.title"),
+            body: L10n.text("notification.test.body"),
             identifier: "cm-test-\(UUID().uuidString)"
         )
     }
@@ -489,10 +489,10 @@ final class WidgetStore: ObservableObject {
 
             for threshold in enabledThresholds.reversed() {
                 if forecast.remainingPercent <= threshold && threshold < alreadyNotified {
-                    let title = "Codex capacity below \(threshold)%"
+                    let title = L10n.text("notification.threshold.title", threshold)
                     await sendSafeNotification(
                         title: title,
-                        body: "\(forecast.kind.title) appears below its remaining threshold. Based on observed usage pace.",
+                        body: L10n.text("notification.threshold.body", forecast.kind.title),
                         identifier: "cm-threshold-\(cycleKey)-\(threshold)"
                     )
                     updatedLedger.thresholdStateByWindow[stateKey] = threshold
@@ -533,8 +533,8 @@ final class WidgetStore: ObservableObject {
                 let formatter = Self.notificationTimeFormatter
                 let resetText = formatter.string(from: resetAt)
                 await sendSafeNotification(
-                    title: "Projected to run out before reset",
-                    body: "\(forecast.kind.title) is likely to deplete before \(resetText). Based on observed usage pace.",
+                    title: L10n.text("notification.runout.title"),
+                    body: L10n.text("notification.runout.body", forecast.kind.title, resetText),
                     identifier: "cm-runout-\(stateKey)"
                 )
                 updatedLedger.exhaustionStateByWindow[stateKey] = true
@@ -560,8 +560,8 @@ final class WidgetStore: ObservableObject {
             }
 
             await sendSafeNotification(
-                title: "Reset credit expires soon",
-                body: "A reset credit expires within 24 hours. Based on observed usage pace.",
+                title: L10n.text("notification.creditExpiry.title"),
+                body: L10n.text("notification.creditExpiry.body"),
                 identifier: "cm-credit-expire-\(key)"
             )
 
@@ -594,8 +594,8 @@ final class WidgetStore: ObservableObject {
 
         if updatedLedger.lastAvailableResetCreditCount != currentCount {
             await sendSafeNotification(
-                title: "Reset capacity restored",
-                body: "Reset credits are available again. Based on observed usage pace.",
+                title: L10n.text("notification.resetRestored.title"),
+                body: L10n.text("notification.resetRestored.body"),
                 identifier: "cm-reset-credit-return-\(currentCount)-\(currentObservation.sampledAt.timeIntervalSince1970)"
             )
             updatedLedger.lastAvailableResetCreditCount = currentCount
@@ -654,7 +654,7 @@ final class WidgetStore: ObservableObject {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         let didCopy = pasteboard.setString(diagnostics, forType: .string)
-        let message = didCopy ? "Diagnostics copied" : "Could not copy diagnostics"
+        let message = didCopy ? L10n.text("diagnostics.copy.success") : L10n.text("diagnostics.copy.failure")
         diagnosticsCopyMessage = message
 
         Task { @MainActor in
@@ -722,7 +722,7 @@ final class WidgetStore: ObservableObject {
             endpoint: endpoint,
             category: .unknown,
             message: error.localizedDescription,
-            recoverySuggestion: (error as? LocalizedError)?.recoverySuggestion ?? "Try refreshing again."
+            recoverySuggestion: (error as? LocalizedError)?.recoverySuggestion ?? L10n.text("endpointError.recovery.refreshAgain")
         )
     }
 

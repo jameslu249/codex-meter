@@ -15,6 +15,7 @@ APP_MACOS="$APP_CONTENTS/MacOS"
 APP_RESOURCES="$APP_CONTENTS/Resources"
 APP_BINARY="$APP_MACOS/$APP_NAME"
 INFO_PLIST="$APP_CONTENTS/Info.plist"
+RESOURCE_BUNDLE_NAME="CodexMeter_CodexMeter.bundle"
 
 cd "$ROOT_DIR"
 
@@ -23,7 +24,8 @@ pkill -f "/Applications/$DISPLAY_NAME.app/Contents/MacOS/$APP_NAME" >/dev/null 2
 pkill -f "$ROOT_DIR/dist/$APP_NAME.app/Contents/MacOS/$APP_NAME" >/dev/null 2>&1 || true
 
 swift build
-BUILD_BINARY="$(swift build --show-bin-path)/$APP_NAME"
+BUILD_DIR="$(swift build --show-bin-path)"
+BUILD_BINARY="$BUILD_DIR/$APP_NAME"
 
 if [[ -d "$APP_BUNDLE" ]]; then
   case "$APP_BUNDLE" in
@@ -44,6 +46,10 @@ if [[ -f "$ROOT_DIR/Resources/AppIcon.icns" ]]; then
   /usr/bin/ditto --noextattr --norsrc "$ROOT_DIR/Resources/AppIcon.icns" "$APP_RESOURCES/AppIcon.icns"
 fi
 
+if [[ -d "$BUILD_DIR/$RESOURCE_BUNDLE_NAME" ]]; then
+  /usr/bin/ditto --noextattr --norsrc "$BUILD_DIR/$RESOURCE_BUNDLE_NAME" "$APP_RESOURCES/$RESOURCE_BUNDLE_NAME"
+fi
+
 cat >"$INFO_PLIST" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -53,12 +59,21 @@ cat >"$INFO_PLIST" <<PLIST
   <string>$APP_NAME</string>
   <key>CFBundleDisplayName</key>
   <string>$DISPLAY_NAME</string>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
   <key>CFBundleIconFile</key>
   <string>AppIcon</string>
   <key>CFBundleIdentifier</key>
   <string>$BUNDLE_ID</string>
   <key>CFBundleName</key>
   <string>$DISPLAY_NAME</string>
+  <key>CFBundleLocalizations</key>
+  <array>
+    <string>en</string>
+    <string>zh-Hans</string>
+    <string>ja</string>
+    <string>ko</string>
+  </array>
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>LSMinimumSystemVersion</key>

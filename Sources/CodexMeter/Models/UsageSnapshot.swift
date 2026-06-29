@@ -116,16 +116,16 @@ struct UsageWindow: Decodable, Equatable, Sendable {
 
     var durationTitle: String {
         if limitWindowSeconds >= 604_800 {
-            return "Weekly"
+            return L10n.text("usageWindow.weekly.title")
         }
 
         if limitWindowSeconds >= 86_400 {
             let days = limitWindowSeconds / 86_400
-            return "\(days)d"
+            return L10n.text("duration.days.compact", days)
         }
 
         let hours = max(1, limitWindowSeconds / 3_600)
-        return "\(hours)h"
+        return L10n.text("duration.hours.compact", hours)
     }
 
     enum CodingKeys: String, CodingKey {

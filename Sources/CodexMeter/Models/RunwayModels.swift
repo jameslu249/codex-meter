@@ -13,22 +13,22 @@ enum UsageWindowKind: String, Codable, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .codexPrimary:
-            return "Codex 5h"
+            return L10n.text("usageWindow.codexPrimary.title")
         case .codexWeekly:
-            return "Codex weekly"
+            return L10n.text("usageWindow.codexWeekly.title")
         case .sparkPrimary:
-            return "Spark 5h"
+            return L10n.text("usageWindow.sparkPrimary.title")
         case .sparkWeekly:
-            return "Spark weekly"
+            return L10n.text("usageWindow.sparkWeekly.title")
         }
     }
 
     var resetLabel: String {
         switch self {
         case .codexPrimary, .sparkPrimary:
-            return "5h reset"
+            return L10n.text("usageWindow.resetLabel.fiveHour")
         case .codexWeekly, .sparkWeekly:
-            return "weekly reset"
+            return L10n.text("usageWindow.resetLabel.weekly")
         }
     }
 }
@@ -115,6 +115,17 @@ enum RunwayConfidence: String, Codable {
     case stable = "Stable"
     case variable = "Variable"
     case limitedData = "Limited data"
+
+    var title: String {
+        switch self {
+        case .stable:
+            return L10n.text("runway.confidence.stable")
+        case .variable:
+            return L10n.text("runway.confidence.variable")
+        case .limitedData:
+            return L10n.text("runway.confidence.limitedData")
+        }
+    }
 }
 
 struct RunwayPaceSummary: Equatable {

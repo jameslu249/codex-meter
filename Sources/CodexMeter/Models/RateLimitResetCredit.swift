@@ -31,7 +31,7 @@ struct RateLimitResetCredit: Decodable, Equatable, Identifiable, Sendable {
 
     var statusTitle: String {
         if isAvailable {
-            return "Available"
+            return L10n.text("resetCredit.status.available")
         }
 
         return status

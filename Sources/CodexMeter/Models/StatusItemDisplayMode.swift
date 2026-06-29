@@ -14,15 +14,15 @@ enum StatusItemDisplayMode: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .percentageOnly:
-            return "Percent only"
+            return L10n.text("statusItem.mode.percentageOnly")
         case .percentageWithResetTime:
-            return "Percent + reset time"
+            return L10n.text("statusItem.mode.percentageWithResetTime")
         case .primaryAndWeekly:
-            return "Primary and weekly"
+            return L10n.text("statusItem.mode.primaryAndWeekly")
         case .lowestWindowOnly:
-            return "Lowest overall"
+            return L10n.text("statusItem.mode.lowestWindowOnly")
         case .iconOnly:
-            return "Icon Only"
+            return L10n.text("statusItem.mode.iconOnly")
         }
     }
 
@@ -52,7 +52,7 @@ struct StatusItemUsageWindow: Identifiable, Equatable {
     }
 
     var menuLabel: String {
-        return "\(menuLabelPrefix): \(percent)% · \(remainingText)"
+        return L10n.text("statusItem.menu.windowLabel", menuLabelPrefix, percent, remainingText)
     }
 }
 
@@ -131,40 +131,40 @@ struct StatusItemSnapshot {
     func previewText(for mode: StatusItemDisplayMode) -> String {
         if hasWindowData {
             let text = statusText(for: mode)
-            return text.isEmpty ? "Icon only" : text
+            return text.isEmpty ? L10n.text("statusItem.preview.iconOnly") : text
         }
 
         switch mode {
         case .percentageOnly:
             return "67%"
         case .percentageWithResetTime:
-            return "67% · 2h 14m"
+            return L10n.text("statusItem.preview.percentageWithResetTime")
         case .primaryAndWeekly:
-            return "5h 83% · Wk 71%"
+            return L10n.text("statusItem.preview.primaryAndWeekly")
         case .lowestWindowOnly:
-            return "Spark 67%"
+            return L10n.text("statusItem.preview.lowestWindowOnly")
         case .iconOnly:
-            return "Icon only"
+            return L10n.text("statusItem.preview.iconOnly")
         }
     }
 
     var tooltipText: String {
-        var base = "Codex Meter"
+        var base = L10n.text("app.name")
 
         if hasWindowData {
             if isStale {
-                base += " · data may be stale"
+                base += L10n.text("statusItem.tooltip.staleSuffix")
             }
         } else if isLoading {
-            base += " · loading usage"
+            base += L10n.text("statusItem.tooltip.loadingSuffix")
         } else if let errorMessage {
             base += " · \(errorMessage)"
         } else {
-            base += " · no usage data"
+            base += L10n.text("statusItem.tooltip.noDataSuffix")
         }
 
         if let lastUpdated {
-            base += " · updated \(Self.timeFormatter.string(from: lastUpdated))"
+            base += L10n.text("statusItem.tooltip.updatedSuffix", Self.timeFormatter.string(from: lastUpdated))
         }
 
         return base
@@ -176,7 +176,7 @@ struct StatusItemSnapshot {
 
     var menuActionSummary: String {
         guard hasWindowData else {
-            return "No usage data yet"
+            return L10n.text("statusItem.menu.noUsageData")
         }
 
         if windows.count == 1 {
@@ -185,14 +185,14 @@ struct StatusItemSnapshot {
         }
 
         if mode == .percentageOnly || mode == .percentageWithResetTime {
-            return "\(headlineCodexWindow.menuLabelPrefix): \(headlineCodexWindow.percent)%"
+            return L10n.text("statusItem.menu.headlinePercent", headlineCodexWindow.menuLabelPrefix, headlineCodexWindow.percent)
         }
 
         if mode == .primaryAndWeekly {
             return compactPrimaryAndWeeklyText()
         }
 
-        return "Lowest: \(lowestWindow.shortMenuLabel) \(lowestWindow.percent)%"
+        return L10n.text("statusItem.menu.lowest", lowestWindow.shortMenuLabel, lowestWindow.percent)
     }
 
     private var headlineCodexWindow: StatusItemUsageWindow {
@@ -264,7 +264,7 @@ struct StatusItemSnapshot {
                     source: "Codex",
                     shortLabel: "P",
                     menuBarLabel: primaryWindow.durationTitle,
-                    menuLabelPrefix: "Codex \(primaryWindow.durationTitle)",
+                    menuLabelPrefix: L10n.text("statusItem.window.codexPrimary", primaryWindow.durationTitle),
                     percent: primaryWindow.remainingPercent,
                     resetAt: primaryWindow.resetAt,
                     resetAfterSeconds: primaryWindow.resetAfterSeconds,
@@ -282,8 +282,8 @@ struct StatusItemSnapshot {
                     id: "codex-weekly",
                     source: "Codex",
                     shortLabel: "W",
-                    menuBarLabel: "Wk",
-                    menuLabelPrefix: "Codex weekly",
+                    menuBarLabel: L10n.text("statusItem.window.weeklyShort"),
+                    menuLabelPrefix: L10n.text("statusItem.window.codexWeekly"),
                     percent: secondaryWindow.remainingPercent,
                     resetAt: secondaryWindow.resetAt,
                     resetAfterSeconds: secondaryWindow.resetAfterSeconds,
@@ -313,7 +313,7 @@ struct StatusItemSnapshot {
                     source: "Spark",
                     shortLabel: "P",
                     menuBarLabel: "Spark",
-                    menuLabelPrefix: "Spark \(primaryWindow.durationTitle)",
+                    menuLabelPrefix: L10n.text("statusItem.window.sparkPrimary", primaryWindow.durationTitle),
                     percent: primaryWindow.remainingPercent,
                     resetAt: primaryWindow.resetAt,
                     resetAfterSeconds: primaryWindow.resetAfterSeconds,
@@ -331,8 +331,8 @@ struct StatusItemSnapshot {
                     id: "spark-weekly",
                     source: "Spark",
                     shortLabel: "W",
-                    menuBarLabel: "Spark Wk",
-                    menuLabelPrefix: "Spark weekly",
+                    menuBarLabel: L10n.text("statusItem.window.sparkWeeklyShort"),
+                    menuLabelPrefix: L10n.text("statusItem.window.sparkWeekly"),
                     percent: secondaryWindow.remainingPercent,
                     resetAt: secondaryWindow.resetAt,
                     resetAfterSeconds: secondaryWindow.resetAfterSeconds,
@@ -356,20 +356,20 @@ struct StatusItemSnapshot {
 enum StatusItemFormatter {
     static func remainingTimeText(_ seconds: Int) -> String {
         if seconds <= 0 {
-            return "reset"
+            return L10n.text("statusItem.remaining.reset")
         }
 
         let hourPart = seconds / 3600
         let minutePart = (seconds % 3600) / 60
 
         if hourPart > 0 && minutePart > 0 {
-            return "\(hourPart)h \(minutePart)m"
+            return L10n.text("statusItem.remaining.hoursMinutes", hourPart, minutePart)
         }
 
         if hourPart > 0 {
-            return "\(hourPart)h"
+            return L10n.text("statusItem.remaining.hours", hourPart)
         }
 
-        return "\(minutePart)m"
+        return L10n.text("statusItem.remaining.minutes", minutePart)
     }
 }

@@ -40,8 +40,8 @@ struct RateLimitResetClient: Sendable {
                     endpoint: .resetCredits,
                     category: .schemaMismatch,
                     recognizedKeys: EndpointResponseDecoder.recognizedKeys(from: data, endpoint: .resetCredits),
-                    message: "Reset-credit response contained a negative available count.",
-                    recoverySuggestion: "Copy diagnostics and report the endpoint shape."
+                    message: L10n.text("endpointError.resetCredits.negativeCount"),
+                    recoverySuggestion: L10n.text("endpointError.recovery.copyDiagnostics")
                 )
             )
         }
